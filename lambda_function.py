@@ -2,8 +2,6 @@ import json
 import urllib.parse
 import boto3
 
-print('Loading function')
-
 s3 = boto3.client('s3')
 dynamodb = boto3.client('dynamodb')
 
@@ -23,7 +21,6 @@ def update_usage(user_id, size_change):
         }
     )
 
-    print(response)
 
 def save_object_size(object_key, size):
     user_id = object_key.split('/')[0]
@@ -43,8 +40,6 @@ def save_object_size(object_key, size):
         }
     )
 
-    print(response)
-
     update_usage(user_id, str(size))
 
 def remove_object_size(object_key):
@@ -63,8 +58,6 @@ def remove_object_size(object_key):
     )
 
     size = int(response['Attributes']['Size']['N'])
-
-    print(response)
 
     update_usage(user_id, str(0 - size))
 
